@@ -1,0 +1,124 @@
+See Veeramalla video for this 
+**Docker Model Runner** is a Docker feature that allows you to **run AI/LLM models locally in containers** using Docker, without manually setting up inference servers or complex AI tooling.
+
+It is designed to make running models such as **Llama**, **Mistral**, **Gemma**, and other open-source LLMs as simple as running a Docker container.
+
+### What problem does it solve?
+
+Traditionally, to run an LLM locally, you would need to:
+
+1. Install model-serving software (e.g., Ollama, vLLM, llama.cpp)
+2. Download model weights
+3. Configure GPU support
+4. Expose APIs
+
+Docker Model Runner simplifies this by packaging the runtime and model management into Docker.
+
+---
+
+### Architecture
+
+```text
+Your Application
+       │
+       ▼
+Docker Model Runner API
+       │
+       ▼
+Local LLM Model
+       │
+       ▼
+CPU or GPU
+```
+
+---
+
+### Check if Model Runner is Available
+
+In PowerShell:
+
+```bash
+docker model --help
+```
+
+or
+
+```bash
+docker desktop enable model-runner
+```
+
+Depending on your Docker Desktop version, you should see Model Runner commands.
+
+---
+
+### Common Commands
+
+List available model commands:
+
+```bash
+docker model --help
+```
+
+Run a model:
+
+```bash
+docker model run ai/smollm2
+```
+
+List downloaded models:
+
+```bash
+docker model ls
+```
+
+Remove a model:
+
+```bash
+docker model rm <model-name>
+```
+
+---
+
+### Example
+
+Start a lightweight model:
+
+```bash
+docker model run ai/smollm2
+```
+
+Then interact with it:
+
+```bash
+curl http://localhost:12434/engines/llama.cpp/v1/chat/completions ^
+-H "Content-Type: application/json" ^
+-d "{\"messages\":[{\"role\":\"user\",\"content\":\"Hello\"}]}"
+```
+
+The model responds through an OpenAI-compatible API endpoint.
+
+---
+
+### Enable Model Runner in Docker Desktop
+
+1. Open Docker Desktop
+2. Go to **Settings**
+3. Open **Features in Development** (or AI section, depending on version)
+4. Enable **Docker Model Runner**
+5. Restart Docker Desktop
+
+---
+
+### How it compares to Ollama
+
+| Feature               | Docker Model Runner | Ollama       |
+| --------------------- | ------------------- | ------------ |
+| Docker Integration    | Native              | External     |
+| OpenAI-compatible API | Yes                 | Yes          |
+| Model Management      | Docker-based        | Ollama-based |
+| Container Workflows   | Excellent           | Good         |
+| Ecosystem Maturity    | Newer               | More Mature  |
+
+Many developers already using Docker prefer Model Runner because it integrates directly into existing Docker workflows, while Ollama currently has a larger model ecosystem and community.
+
+If you're learning Docker for DevOps or platform engineering roles, Model Runner is worth exploring because it demonstrates how Docker is expanding beyond traditional containers into AI workloads.
